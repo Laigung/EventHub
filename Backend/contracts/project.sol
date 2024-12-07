@@ -1,8 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-// Deployed contract address v0.1: 0xCaA9c00765ae51d05458ba356d2Ae19860946186
-// Deployed contract address v0.2: 0x77884e97e58e0357b5e62CC7f403062bd78Bd1cB
-// Deployed contract address v0.3: 0x5C038D1e2ad790bcf4F82a0D00c9260edA8c11B3
-
+// Contract address: 0xF9db297A92Ba6bE781979d7765b96aDfA03bE19b
 
 pragma solidity >=0.7.0;
 
@@ -135,6 +132,34 @@ contract EventPlatform {
     function getRemainingSeats(uint256 eventID) public view returns (uint) {
         return currentEvent[eventID].maxParticipants - currentEvent[eventID].participants.length;
     }
+
+    function getAllEvents() public view returns (Event[] memory) {
+        Event[] memory allEvents = new Event[](currentEventID);
+        for (uint256 i = 0; i < currentEventID; i++) {
+            allEvents[i] = currentEvent[i];
+        }
+        return allEvents;
+    }
+
+    function getAllVisibleEvents() public view returns (Event[] memory) {
+        uint256 visibleCount = 0;
+        for (uint256 i = 0; i < currentEventID; i++) {
+            if (currentEvent[i].isVisible) {
+                visibleCount++;
+            }
+        }
+
+        Event[] memory visibleEvents = new Event[](visibleCount);
+        uint256 index = 0;
+        for (uint256 i = 0; i < currentEventID; i++) {
+            if (currentEvent[i].isVisible) {
+                visibleEvents[index] = currentEvent[i];
+                index++;
+            }
+        }
+        return visibleEvents;
+    }
+
 
     // use the "Withdrawal from Contracts" pattern from https://docs.soliditylang.org/en/v0.8.28/common-patterns.html#withdrawal-from-contracts 
     function withdraw() public {
