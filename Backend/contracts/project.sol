@@ -16,10 +16,10 @@ contract EventPlatform {
         uint256 eventID;
         string eventName;
         string description;
-        uint256 date; // unix timestamp
+        uint32 date; // unix timestamp
         string venue;
-        uint maxParticipants;
-        uint ageLimit;
+        uint64 maxParticipants;
+        uint8 ageLimit;
         uint256 fee; // in wei
         User admin;
         address[] participants;
@@ -29,7 +29,7 @@ contract EventPlatform {
     struct User{
         address userAddress;
         string userName;
-        uint age;
+        uint8 age;
     }
 
     event EventCreated(uint256 eventId, address creator, Event detail);
@@ -39,7 +39,7 @@ contract EventPlatform {
     }
 
     // User-related functions
-    function registerUser(string memory name, uint age) public {
+    function registerUser(string memory name, uint8 age) public {
         require(registeredUser[msg.sender].userAddress == address(0), "User already exists");
         registeredUser[msg.sender] = User(msg.sender,name,age);
     }
@@ -73,7 +73,7 @@ contract EventPlatform {
     }
 
     // Event-related functions
-    function addEvent(string memory eventName, string memory description, uint256 date, string memory venue, uint maxParticipants, uint ageLimit, uint256 fee, bool isVisible) public {
+    function addEvent(string memory eventName, string memory description,uint32 date, string memory venue, uint64 maxParticipants, uint8 ageLimit, uint256 fee, bool isVisible) public {
         require(registeredUser[msg.sender].userAddress != address(0), "User is not yet registered");
         Event storage tmp = currentEvent[currentEventID];
         tmp.eventID = currentEventID;
@@ -92,7 +92,7 @@ contract EventPlatform {
         currentEventID++;
     }
 
-    function editEvent(uint256 eventID, string memory eventName, string memory description, uint256 date, string memory venue, uint maxParticipants, uint ageLimit, uint64 fee, bool isVisible) public {
+    function editEvent(uint256 eventID, string memory eventName, string memory description,uint32 date, string memory venue, uint64 maxParticipants, uint8 ageLimit, uint64 fee, bool isVisible) public {
         require(eventID >= 0 && eventID < currentEventID, "Event does not exist");
         require(currentEvent[eventID].admin.userAddress == msg.sender, "Only admin can edit the event");
         currentEvent[eventID].eventName = eventName;
