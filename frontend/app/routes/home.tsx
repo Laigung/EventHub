@@ -20,11 +20,11 @@ function App() {
     connectedAccount,
     setConnectedAccount,
     currentBalance,
+    events,
+    setEvents,
   } = useWeb3Context();
 
   const [api, contextHolder] = notification.useNotification();
-
-  const [events, setEvents] = useState<IEvent[]>();
 
   const [isLoadingEvents, setIsLoadingEvents] = useState<boolean>(false);
 

@@ -1,6 +1,7 @@
 import { Card } from 'antd';
 import dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
+import { Link } from 'react-router';
 import { IEvent } from '~/types';
 
 dayjs.extend(LocalizedFormat);
@@ -28,7 +29,7 @@ export default function EventCard({ event }: EventCardProps) {
   return (
     <Card
       title={`${event.eventName} (#${event.eventID})`}
-      extra={<a href="#">More</a>}
+      extra={<Link to={`event/${event.eventID}`}>More</Link>}
       className="min-w-[350px]"
     >
       <Field title="Description" content={event.description} />

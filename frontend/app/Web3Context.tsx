@@ -2,6 +2,7 @@ import React from 'react';
 import { createContext, useEffect, useState } from 'react';
 import Web3, { Contract } from 'web3';
 import { contractABI, contractAddress } from './web3';
+import { IEvent } from "./types";
 
 type Web3ContextType = {
   web3?: Web3;
@@ -14,17 +15,20 @@ type Web3ContextType = {
     value: React.SetStateAction<string | undefined>
   ) => void;
   currentBalance: string;
+  events: IEvent[];
+  setEvents: (value: React.SetStateAction<IEvent[]>) => void;
 };
 
 // Default context value
 const defaultWeb3Context: Web3ContextType = {
-  web3: undefined,
   requestAccounts: async () => {},
   accounts: [],
   allBalances: {},
   connectedAccount: undefined,
   setConnectedAccount: () => {},
   currentBalance: 'loading...',
+  events: [],
+  setEvents: () => {},
 };
 
 const Web3Context = createContext<Web3ContextType>(defaultWeb3Context);
@@ -38,6 +42,7 @@ export default function Web3ContextProvider({
   const [allBalances, setAllBalances] = useState<Record<string, string>>({});
   const [connectedAccount, setConnectedAccount] = useState<string>();
   const [currentBalance, setCurrentBalance] = useState<string>('loading...');
+  const [events, setEvents] = useState<IEvent[]>([]);
 
   async function requestAccounts() {
     if (!web3) {
@@ -95,6 +100,8 @@ export default function Web3ContextProvider({
         connectedAccount,
         setConnectedAccount,
         currentBalance,
+        events,
+        setEvents
       }}
     >
       {children}
