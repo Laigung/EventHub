@@ -1,7 +1,7 @@
-import React from 'react';
-import { createContext, useEffect, useState } from 'react';
-import Web3, { Contract } from 'web3';
-import { contractABI, contractAddress } from './web3';
+import React from "react";
+import { createContext, useEffect, useState } from "react";
+import Web3, { Contract } from "web3";
+import { contractABI, contractAddress } from "./web3";
 import { IEvent } from "./types";
 
 type Web3ContextType = {
@@ -26,7 +26,7 @@ const defaultWeb3Context: Web3ContextType = {
   allBalances: {},
   connectedAccount: undefined,
   setConnectedAccount: () => {},
-  currentBalance: 'loading...',
+  currentBalance: "loading...",
   events: [],
   setEvents: () => {},
 };
@@ -41,7 +41,7 @@ export default function Web3ContextProvider({
   const [accounts, setAccounts] = useState<string[]>([]);
   const [allBalances, setAllBalances] = useState<Record<string, string>>({});
   const [connectedAccount, setConnectedAccount] = useState<string>();
-  const [currentBalance, setCurrentBalance] = useState<string>('loading...');
+  const [currentBalance, setCurrentBalance] = useState<string>("loading...");
   const [events, setEvents] = useState<IEvent[]>([]);
 
   async function requestAccounts() {
@@ -49,7 +49,7 @@ export default function Web3ContextProvider({
       return;
     }
 
-    await window.ethereum.request({ method: 'eth_requestAccounts' });
+    await window.ethereum.request({ method: "eth_requestAccounts" });
 
     const allAccounts = await web3.eth.getAccounts();
     setAccounts(allAccounts);
@@ -58,7 +58,7 @@ export default function Web3ContextProvider({
     allAccounts.map(async (account) => {
       const balanceInWei = web3.utils.fromWei(
         await web3.eth.getBalance(account),
-        'ether'
+        "ether"
       );
       setAllBalances((prevBalances) => ({
         ...prevBalances,
@@ -69,13 +69,13 @@ export default function Web3ContextProvider({
 
   useEffect(() => {
     async function getAccountBalance() {
-      if (!connectedAccount || !web3) return 'loading...';
+      if (!connectedAccount || !web3) return "loading...";
 
       const balanceInWei = await web3.eth.getBalance(connectedAccount);
-      setCurrentBalance(web3.utils.fromWei(balanceInWei, 'ether'));
+      setCurrentBalance(web3.utils.fromWei(balanceInWei, "ether"));
     }
 
-    connectedAccount && localStorage.setItem('account', connectedAccount);
+    connectedAccount && localStorage.setItem("account", connectedAccount);
     getAccountBalance();
   }, [connectedAccount]);
 
@@ -85,7 +85,10 @@ export default function Web3ContextProvider({
 
     const web3Instance = new Web3(window.ethereum);
     setWeb3(web3Instance);
-    const contract = new web3Instance.eth.Contract(contractABI, contractAddress);
+    const contract = new web3Instance.eth.Contract(
+      contractABI,
+      contractAddress
+    );
     setContract(contract);
   }, []);
 
@@ -101,7 +104,7 @@ export default function Web3ContextProvider({
         setConnectedAccount,
         currentBalance,
         events,
-        setEvents
+        setEvents,
       }}
     >
       {children}

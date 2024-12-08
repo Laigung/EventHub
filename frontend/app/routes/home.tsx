@@ -1,13 +1,13 @@
-import { Button, notification, Skeleton } from 'antd';
-import type { Route } from './+types/home';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import AccountInformation from '~/components/AccountInformation';
-import EventList from '~/components/EventList';
-import { useWeb3Context } from '~/Web3Context';
-import { IEvent } from '~/types';
+import { Button, notification, Skeleton } from "antd";
+import type { Route } from "./+types/home";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import AccountInformation from "~/components/AccountInformation";
+import EventList from "~/components/EventList";
+import { useWeb3Context } from "~/Web3Context";
+import { IEvent } from "~/types";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: 'Event Ticket Platform' }];
+  return [{ title: "Event Ticket Platform" }];
 }
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
 
   const accountOptions = useMemo(() => {
     return accounts?.map((account) => ({
-      label: `${account} (${allBalances[account] ?? 'loading...'} ether)`,
+      label: `${account} (${allBalances[account] ?? "loading..."} ether)`,
       value: account,
     }));
   }, [accounts, allBalances]);
@@ -49,7 +49,7 @@ function App() {
       setIsLoadingEvents(false);
     } catch (err: unknown) {
       api.error({
-        message: 'Failed to fetch events',
+        message: "Failed to fetch events",
         description: JSON.stringify(err),
         duration: 2,
       });
@@ -60,7 +60,7 @@ function App() {
     await getEvents();
     api.success({
       message: "Success",
-      description: 'Refresh event list successfully',
+      description: "Refresh event list successfully",
       duration: 2,
     });
   };

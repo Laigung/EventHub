@@ -1,8 +1,8 @@
-import { useWeb3Context } from '~/Web3Context';
-import { Route } from './+types/EventDetailPage';
-import { ConfigProvider, Descriptions } from 'antd';
-import type { DescriptionsProps } from 'antd';
-import dayjs from 'dayjs';
+import { useWeb3Context } from "~/Web3Context";
+import { Route } from "./+types/EventDetailPage";
+import { ConfigProvider, Descriptions } from "antd";
+import type { DescriptionsProps } from "antd";
+import dayjs from "dayjs";
 
 export async function loader({ params }: Route.LoaderArgs) {}
 
@@ -15,69 +15,69 @@ export default function EventDetailPage({ params }: Route.ComponentProps) {
     return <div className="w-full h-full text-2xl">Event not found.</div>;
   }
 
-  const eventDate = dayjs.unix(Number(event.date)).format('LLLL');
+  const eventDate = dayjs.unix(Number(event.date)).format("LLLL");
 
   const parentKey = `event-${event.eventID}`;
 
-  const items: DescriptionsProps['items'] = [
+  const items: DescriptionsProps["items"] = [
     {
-      key: parentKey + '-name',
-      label: 'Name',
+      key: parentKey + "-name",
+      label: "Name",
       children: event.eventName,
     },
     {
-      key: parentKey + '-date',
-      label: 'Date',
+      key: parentKey + "-date",
+      label: "Date",
       children: eventDate,
     },
     {
-      key: parentKey + '-venue',
-      label: 'Venue',
+      key: parentKey + "-venue",
+      label: "Venue",
       children: event.venue,
     },
     {
-      key: parentKey + '-description',
-      label: 'Description',
+      key: parentKey + "-description",
+      label: "Description",
       children: event.description,
       span: 3,
     },
     {
-      key: parentKey + '-maxParticipants',
-      label: 'maxParticipants',
+      key: parentKey + "-maxParticipants",
+      label: "maxParticipants",
       children: Number(event.maxParticipants),
     },
     {
-      key: parentKey + '-ageLimit',
-      label: 'Age Limit',
+      key: parentKey + "-ageLimit",
+      label: "Age Limit",
       children: Number(event.ageLimit),
     },
     {
-      key: parentKey + '-fee',
-      label: 'Fee',
-      children: `${Number(event.fee)} wei (equivalent to ${web3?.utils.fromWei(Number(event.fee), 'ether')} ether)`,
+      key: parentKey + "-fee",
+      label: "Fee",
+      children: `${Number(event.fee)} wei (equivalent to ${web3?.utils.fromWei(Number(event.fee), "ether")} ether)`,
     },
     {
-      key: parentKey + '-admin',
-      label: 'Admin',
+      key: parentKey + "-admin",
+      label: "Admin",
       children: `${event.admin.userName} (${event.admin.userAddress})`,
       span: 3,
     },
     {
-      key: parentKey + '-participants',
-      label: 'Participants',
+      key: parentKey + "-participants",
+      label: "Participants",
       children: (
         <div>
           {event.participants.length > 0
-            ? event.participants.join(', ')
-            : 'No participant yet'}
+            ? event.participants.join(", ")
+            : "No participant yet"}
         </div>
       ),
       span: 3,
     },
     {
-      key: parentKey + '-isVisible',
-      label: 'Visible',
-      children: event.isVisible ? 'Yes' : 'No',
+      key: parentKey + "-isVisible",
+      label: "Visible",
+      children: event.isVisible ? "Yes" : "No",
     },
   ];
 
@@ -86,12 +86,12 @@ export default function EventDetailPage({ params }: Route.ComponentProps) {
       theme={{
         components: {
           Descriptions: {
-            labelBg: 'white',
-            contentColor: 'black',
+            labelBg: "white",
+            contentColor: "black",
             fontSizeLG: 24,
             fontSizeHeading1: 30,
             fontSize: 18,
-            colorBorder: 'black',
+            colorBorder: "black",
           },
         },
       }}

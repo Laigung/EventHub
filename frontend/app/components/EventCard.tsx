@@ -1,8 +1,8 @@
-import { Card } from 'antd';
-import dayjs from 'dayjs';
-import LocalizedFormat from 'dayjs/plugin/localizedFormat';
-import { Link } from 'react-router';
-import { IEvent } from '~/types';
+import { Card } from "antd";
+import dayjs from "dayjs";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import { Link } from "react-router";
+import { IEvent } from "~/types";
 
 dayjs.extend(LocalizedFormat);
 
@@ -25,7 +25,7 @@ function Field({
 }
 
 export default function EventCard({ event }: EventCardProps) {
-  const eventDate = dayjs.unix(Number(event.date)).format('LLLL');
+  const eventDate = dayjs.unix(Number(event.date)).format("LLLL");
   return (
     <Card
       title={`${event.eventName} (#${event.eventID})`}

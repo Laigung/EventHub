@@ -1,7 +1,7 @@
-import { List } from 'antd';
-import { IEvent } from '~/types';
-import EventCard from './EventCard';
-import { ReloadOutlined } from '@ant-design/icons';
+import { List } from "antd";
+import { IEvent } from "~/types";
+import EventCard from "./EventCard";
+import { ReloadOutlined } from "@ant-design/icons";
 
 interface EventListProps {
   events: IEvent[];
