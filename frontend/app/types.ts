@@ -1,7 +1,7 @@
 export interface IUser {
     userAddress: string;
     userName: string;
-    age: BigInt;
+    age: number;
 }
 
 export interface IEvent {

@@ -25,7 +25,7 @@ export default function AccountInformation({
         Account Information
       </div>
       <div className="w-full flex justify-start items-center gap-2">
-        <div>Current account: </div>
+        <span>Current account: </span>
         <Select
           className="min-w-[500px]"
           options={accountOptions}
@@ -42,7 +42,9 @@ export default function AccountInformation({
           }}
         />
       </div>
-      <div>Balance: {currentBalance} ether</div>
+      <div>
+        <span>Balance</span>: {currentBalance} ether
+      </div>
     </div>
   );
 }

@@ -2,13 +2,14 @@ import React from "react";
 import { createContext, useEffect, useState } from "react";
 import Web3, { Contract } from "web3";
 import { contractABI, contractAddress } from "./web3";
-import { IEvent } from "./types";
+import { IEvent, IUser } from "./types";
 
 type Web3ContextType = {
   web3?: Web3;
   requestAccounts: () => Promise<void>;
   contract?: Contract<typeof contractABI>;
   accounts: string[];
+  user?: IUser;
   allBalances: Record<string, string>;
   connectedAccount?: string;
   setConnectedAccount: (
@@ -39,9 +40,12 @@ export default function Web3ContextProvider({
   const [web3, setWeb3] = useState<Web3>();
   const [contract, setContract] = useState<Contract<typeof contractABI>>();
   const [accounts, setAccounts] = useState<string[]>([]);
+  const [user, setUser] = useState<IUser>();
+
   const [allBalances, setAllBalances] = useState<Record<string, string>>({});
   const [connectedAccount, setConnectedAccount] = useState<string>();
   const [currentBalance, setCurrentBalance] = useState<string>("loading...");
+
   const [events, setEvents] = useState<IEvent[]>([]);
 
   async function requestAccounts() {
@@ -75,7 +79,26 @@ export default function Web3ContextProvider({
       setCurrentBalance(web3.utils.fromWei(balanceInWei, "ether"));
     }
 
+    const getUserInfo = () => {
+      if (!connectedAccount) return;
+
+      contract?.methods
+        .getUserInfo()
+        .call({ from: connectedAccount })
+        .then((userInfo) => {
+          setUser({
+            userName: userInfo.userName,
+            age: Number(userInfo.age),
+            userAddress: userInfo.userAddress,
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching user info:", error);
+        });
+    };
+
     getAccountBalance();
+    getUserInfo();
   }, [connectedAccount]);
 
   useEffect(() => {
@@ -98,6 +121,7 @@ export default function Web3ContextProvider({
         requestAccounts,
         contract,
         accounts,
+        user,
         allBalances,
         connectedAccount,
         setConnectedAccount,

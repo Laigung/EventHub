@@ -5,6 +5,7 @@ import AccountInformation from "~/components/AccountInformation";
 import EventList from "~/components/EventList";
 import { useWeb3Context } from "~/Web3Context";
 import { IEvent } from "~/types";
+import UserInformation from "~/components/UserInformation";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Event Ticket Platform" }];
@@ -95,12 +96,19 @@ function App() {
       )}
       {accounts.length > 0 && connectedAccount && (
         <>
-          <AccountInformation
-            accountOptions={accountOptions}
-            connectedAccount={connectedAccount}
-            currentBalance={currentBalance}
-            setConnectedAccount={setConnectedAccount}
-          />
+          <div className="w-full flex gap-5 justify-between items-start">
+            <div className="flex-grow-[7]">
+              <AccountInformation
+                accountOptions={accountOptions}
+                connectedAccount={connectedAccount}
+                currentBalance={currentBalance}
+                setConnectedAccount={setConnectedAccount}
+              />
+            </div>
+            <div className="flex-grow-[3]">
+              <UserInformation />
+            </div>
+          </div>
           <Skeleton loading={isLoadingEvents}>
             <EventList events={events ?? []} refresh={refreshEventList} />
           </Skeleton>

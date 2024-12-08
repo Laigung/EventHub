@@ -13,13 +13,24 @@ interface EventCardProps {
 export function Field({
   title,
   content,
+  margin,
+  isBoldLabel,
 }: {
   title: string;
   content: string | number;
+  margin?: number;
+  isBoldLabel?: boolean;
 }) {
   return (
-    <div key={title} style={{ marginBottom: 16 }}>
-      <strong>{title}:</strong> {content}
+    <div key={title} style={{ marginBottom: margin ?? 16 }}>
+      <span
+        style={{
+          fontWeight: isBoldLabel ? "bold" : "normal",
+        }}
+      >
+        {title}:
+      </span>
+      {content}
     </div>
   );
 }
