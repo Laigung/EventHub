@@ -21,7 +21,7 @@ export default function AccountInformation({
   return (
     <div className="w-full flex flex-col justify-start items-start text-xl">
       {contextHolder}
-      <div className="text-2xl font-bold">Account Information</div>
+      <div className="text-2xl font-bold text-sol-dark">Account Information</div>
       <div className="w-full flex justify-start items-center gap-2">
         <div>Current account: </div>
         <Select

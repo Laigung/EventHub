@@ -12,7 +12,7 @@ export default function GlobalLayout({
       <Header className="sticky top-0 z-10 w-full flex items-center">
         <h1 className="text-3xl text-white">Event Ticketing Platform</h1>
       </Header>
-      <Content className="py-2">
+      <Content className="py-2 bg-sol-pale">
         <div className="p-6 min-h-96">{children}</div>
       </Content>
     </Layout>
