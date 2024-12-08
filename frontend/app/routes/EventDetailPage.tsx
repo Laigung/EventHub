@@ -3,6 +3,8 @@ import { Route } from "./+types/EventDetailPage";
 import { ConfigProvider, Descriptions } from "antd";
 import type { DescriptionsProps } from "antd";
 import dayjs from "dayjs";
+import { Link } from "react-router";
+import { BackwardOutlined } from "@ant-design/icons";
 
 export async function loader({ params }: Route.LoaderArgs) {}
 
@@ -88,14 +90,17 @@ export default function EventDetailPage({ params }: Route.ComponentProps) {
           Descriptions: {
             labelBg: "white",
             contentColor: "black",
-            fontSizeLG: 24,
-            fontSizeHeading1: 30,
+            fontSizeLG: 28,
+            fontSizeHeading1: 36,
             fontSize: 18,
             colorBorder: "black",
           },
         },
       }}
     >
+      <Link to="/" className="mb-5">
+        <BackwardOutlined></BackwardOutlined>Go Back to HomePage
+      </Link>
       <Descriptions title="Event Info" bordered items={items} />
     </ConfigProvider>
   );
