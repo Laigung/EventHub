@@ -76,11 +76,6 @@ export default function EventDetailPage({ params }: Route.ComponentProps) {
       ),
       span: 3,
     },
-    {
-      key: parentKey + "-isVisible",
-      label: "Visible",
-      children: event.isVisible ? "Yes" : "No",
-    },
   ];
 
   return (

@@ -1,7 +1,7 @@
 import { HomeOutlined, PlusOutlined } from "@ant-design/icons";
 import { ConfigProvider, Layout, Menu, MenuProps } from "antd";
-import { useState } from "react";
 import { Link } from "react-router";
+import { useLayoutContext } from "./LayoutContext";
 
 const { Header, Content } = Layout;
 
@@ -10,7 +10,7 @@ export default function GlobalLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [selectedMenuKey, setSelectedMenuKey] = useState<string>("homeLink");
+  const { menuKey, setMenuKey } = useLayoutContext();
 
   const menuItems: MenuProps["items"] = [
     {
@@ -49,7 +49,7 @@ export default function GlobalLayout({
           <Link
             to="/"
             className="mr-5"
-            onClick={() => setSelectedMenuKey("homeLink")}
+            onClick={() => setMenuKey("homeLink")}
           >
             <h1 className="text-3xl text-white">Event Ticketing Platform</h1>
           </Link>
@@ -58,8 +58,8 @@ export default function GlobalLayout({
             mode="horizontal"
             items={menuItems}
             style={{ flex: 1, minWidth: 0 }}
-            selectedKeys={[selectedMenuKey]}
-            onClick={(e) => setSelectedMenuKey(e.key)}
+            selectedKeys={[menuKey]}
+            onClick={(e) => setMenuKey(e.key)}
           />
         </Header>
         <Content className="py-2 bg-sol-pale">

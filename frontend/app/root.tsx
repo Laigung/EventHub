@@ -11,6 +11,7 @@ import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
 import GlobalLayout from "./GlobalLayout";
 import Web3ContextProvider from "./Web3Context";
+import LayoutContextProvider from "./LayoutContext";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -37,7 +38,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="w-[100vw] h-[100vw]">
         <Web3ContextProvider>
-          <GlobalLayout children={children} />
+          <LayoutContextProvider>
+            <GlobalLayout children={children} />
+          </LayoutContextProvider>
         </Web3ContextProvider>
         <ScrollRestoration />
         <Scripts />

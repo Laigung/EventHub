@@ -75,7 +75,6 @@ export default function Web3ContextProvider({
       setCurrentBalance(web3.utils.fromWei(balanceInWei, "ether"));
     }
 
-    connectedAccount && localStorage.setItem("account", connectedAccount);
     getAccountBalance();
   }, [connectedAccount]);
 

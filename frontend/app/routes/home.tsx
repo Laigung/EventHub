@@ -50,7 +50,6 @@ function App() {
     } catch (err: unknown) {
       api.error({
         message: "Failed to fetch events",
-        description: JSON.stringify(err),
         duration: 2,
       });
     }

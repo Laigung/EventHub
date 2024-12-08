@@ -10,7 +10,7 @@ interface EventCardProps {
   event: IEvent;
 }
 
-function Field({
+export function Field({
   title,
   content,
 }: {

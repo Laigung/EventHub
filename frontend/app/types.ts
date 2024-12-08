@@ -15,5 +15,4 @@ export interface IEvent {
     fee: BigInt;
     admin: IUser;
     participants: string[];
-    isVisible: boolean;
 }

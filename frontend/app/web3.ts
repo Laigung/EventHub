@@ -2,7 +2,7 @@ import Web3 from "web3";
 
 const web3 = new Web3('http://127.0.0.1:3000');
 
-const contractAddress = "0x59c8d78BF4D1df17B1910517eCD75D278EF13ece";
+const contractAddress = "0x9903511C25A4e00f222f17Dec8EA8D5C3Aa1cba7";
  
 const contractABI = [
 	{
@@ -18,9 +18,9 @@ const contractABI = [
 				"type": "string"
 			},
 			{
-				"internalType": "uint32",
+				"internalType": "uint256",
 				"name": "date",
-				"type": "uint32"
+				"type": "uint256"
 			},
 			{
 				"internalType": "string",
@@ -28,24 +28,19 @@ const contractABI = [
 				"type": "string"
 			},
 			{
-				"internalType": "uint64",
+				"internalType": "uint256",
 				"name": "maxParticipants",
-				"type": "uint64"
+				"type": "uint256"
 			},
 			{
-				"internalType": "uint8",
+				"internalType": "uint256",
 				"name": "ageLimit",
-				"type": "uint8"
+				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
 				"name": "fee",
 				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "isVisible",
-				"type": "bool"
 			}
 		],
 		"name": "addEvent",
@@ -71,9 +66,9 @@ const contractABI = [
 				"type": "string"
 			},
 			{
-				"internalType": "uint32",
+				"internalType": "uint256",
 				"name": "date",
-				"type": "uint32"
+				"type": "uint256"
 			},
 			{
 				"internalType": "string",
@@ -81,24 +76,19 @@ const contractABI = [
 				"type": "string"
 			},
 			{
-				"internalType": "uint64",
+				"internalType": "uint256",
 				"name": "maxParticipants",
-				"type": "uint64"
+				"type": "uint256"
 			},
 			{
-				"internalType": "uint8",
+				"internalType": "uint256",
 				"name": "ageLimit",
-				"type": "uint8"
+				"type": "uint256"
 			},
 			{
 				"internalType": "uint64",
 				"name": "fee",
 				"type": "uint64"
-			},
-			{
-				"internalType": "bool",
-				"name": "isVisible",
-				"type": "bool"
 			}
 		],
 		"name": "editEvent",
@@ -144,9 +134,9 @@ const contractABI = [
 						"type": "string"
 					},
 					{
-						"internalType": "uint32",
+						"internalType": "uint256",
 						"name": "date",
-						"type": "uint32"
+						"type": "uint256"
 					},
 					{
 						"internalType": "string",
@@ -154,14 +144,14 @@ const contractABI = [
 						"type": "string"
 					},
 					{
-						"internalType": "uint64",
+						"internalType": "uint256",
 						"name": "maxParticipants",
-						"type": "uint64"
+						"type": "uint256"
 					},
 					{
-						"internalType": "uint8",
+						"internalType": "uint256",
 						"name": "ageLimit",
-						"type": "uint8"
+						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
@@ -181,9 +171,9 @@ const contractABI = [
 								"type": "string"
 							},
 							{
-								"internalType": "uint8",
+								"internalType": "uint256",
 								"name": "age",
-								"type": "uint8"
+								"type": "uint256"
 							}
 						],
 						"internalType": "struct EventPlatform.User",
@@ -194,11 +184,6 @@ const contractABI = [
 						"internalType": "address[]",
 						"name": "participants",
 						"type": "address[]"
-					},
-					{
-						"internalType": "bool",
-						"name": "isVisible",
-						"type": "bool"
 					}
 				],
 				"indexed": false,
@@ -250,9 +235,9 @@ const contractABI = [
 				"type": "string"
 			},
 			{
-				"internalType": "uint8",
+				"internalType": "uint256",
 				"name": "age",
-				"type": "uint8"
+				"type": "uint256"
 			}
 		],
 		"name": "registerUser",
@@ -293,9 +278,9 @@ const contractABI = [
 				"type": "string"
 			},
 			{
-				"internalType": "uint32",
+				"internalType": "uint256",
 				"name": "date",
-				"type": "uint32"
+				"type": "uint256"
 			},
 			{
 				"internalType": "string",
@@ -303,14 +288,14 @@ const contractABI = [
 				"type": "string"
 			},
 			{
-				"internalType": "uint64",
+				"internalType": "uint256",
 				"name": "maxParticipants",
-				"type": "uint64"
+				"type": "uint256"
 			},
 			{
-				"internalType": "uint8",
+				"internalType": "uint256",
 				"name": "ageLimit",
-				"type": "uint8"
+				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
@@ -330,19 +315,14 @@ const contractABI = [
 						"type": "string"
 					},
 					{
-						"internalType": "uint8",
+						"internalType": "uint256",
 						"name": "age",
-						"type": "uint8"
+						"type": "uint256"
 					}
 				],
 				"internalType": "struct EventPlatform.User",
 				"name": "admin",
 				"type": "tuple"
-			},
-			{
-				"internalType": "bool",
-				"name": "isVisible",
-				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -370,9 +350,9 @@ const contractABI = [
 						"type": "string"
 					},
 					{
-						"internalType": "uint32",
+						"internalType": "uint256",
 						"name": "date",
-						"type": "uint32"
+						"type": "uint256"
 					},
 					{
 						"internalType": "string",
@@ -380,14 +360,14 @@ const contractABI = [
 						"type": "string"
 					},
 					{
-						"internalType": "uint64",
+						"internalType": "uint256",
 						"name": "maxParticipants",
-						"type": "uint64"
+						"type": "uint256"
 					},
 					{
-						"internalType": "uint8",
+						"internalType": "uint256",
 						"name": "ageLimit",
-						"type": "uint8"
+						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
@@ -407,9 +387,9 @@ const contractABI = [
 								"type": "string"
 							},
 							{
-								"internalType": "uint8",
+								"internalType": "uint256",
 								"name": "age",
-								"type": "uint8"
+								"type": "uint256"
 							}
 						],
 						"internalType": "struct EventPlatform.User",
@@ -420,98 +400,6 @@ const contractABI = [
 						"internalType": "address[]",
 						"name": "participants",
 						"type": "address[]"
-					},
-					{
-						"internalType": "bool",
-						"name": "isVisible",
-						"type": "bool"
-					}
-				],
-				"internalType": "struct EventPlatform.Event[]",
-				"name": "",
-				"type": "tuple[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getAllVisibleEvents",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "eventID",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "eventName",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "description",
-						"type": "string"
-					},
-					{
-						"internalType": "uint32",
-						"name": "date",
-						"type": "uint32"
-					},
-					{
-						"internalType": "string",
-						"name": "venue",
-						"type": "string"
-					},
-					{
-						"internalType": "uint64",
-						"name": "maxParticipants",
-						"type": "uint64"
-					},
-					{
-						"internalType": "uint8",
-						"name": "ageLimit",
-						"type": "uint8"
-					},
-					{
-						"internalType": "uint256",
-						"name": "fee",
-						"type": "uint256"
-					},
-					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "userAddress",
-								"type": "address"
-							},
-							{
-								"internalType": "string",
-								"name": "userName",
-								"type": "string"
-							},
-							{
-								"internalType": "uint8",
-								"name": "age",
-								"type": "uint8"
-							}
-						],
-						"internalType": "struct EventPlatform.User",
-						"name": "admin",
-						"type": "tuple"
-					},
-					{
-						"internalType": "address[]",
-						"name": "participants",
-						"type": "address[]"
-					},
-					{
-						"internalType": "bool",
-						"name": "isVisible",
-						"type": "bool"
 					}
 				],
 				"internalType": "struct EventPlatform.Event[]",
@@ -584,9 +472,9 @@ const contractABI = [
 						"type": "string"
 					},
 					{
-						"internalType": "uint8",
+						"internalType": "uint256",
 						"name": "age",
-						"type": "uint8"
+						"type": "uint256"
 					}
 				],
 				"internalType": "struct EventPlatform.User",
@@ -620,9 +508,9 @@ const contractABI = [
 						"type": "string"
 					},
 					{
-						"internalType": "uint8",
+						"internalType": "uint256",
 						"name": "age",
-						"type": "uint8"
+						"type": "uint256"
 					}
 				],
 				"internalType": "struct EventPlatform.User",
