@@ -46,12 +46,8 @@ export default function GlobalLayout({
     >
       <Layout className="w-full h-full">
         <Header className="sticky top-0 z-10 w-full flex items-center">
-          <Link
-            to="/"
-            className="mr-5"
-            onClick={() => setMenuKey("homeLink")}
-          >
-            <h1 className="text-3xl text-white">Event Ticketing Platform</h1>
+          <Link to="/" className="mr-5" onClick={() => setMenuKey("homeLink")}>
+            <h1 className="text-3xl text-white">EventHub</h1>
           </Link>
           <Menu
             theme="dark"
