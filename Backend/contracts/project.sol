@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-// Contract address: 0xF9db297A92Ba6bE781979d7765b96aDfA03bE19b
+// Contract address: 0x9903511C25A4e00f222f17Dec8EA8D5C3Aa1cba7
 
 pragma solidity >=0.7.0;
 
@@ -16,20 +16,19 @@ contract EventPlatform {
         uint256 eventID;
         string eventName;
         string description;
-        uint32 date; // unix timestamp
+        uint256 date; // unix timestamp
         string venue;
-        uint64 maxParticipants;
-        uint8 ageLimit;
+        uint maxParticipants;
+        uint ageLimit;
         uint256 fee; // in wei
         User admin;
         address[] participants;
-        bool isVisible;
     }
 
     struct User{
         address userAddress;
         string userName;
-        uint8 age;
+        uint age;
     }
 
     event EventCreated(uint256 eventId, address creator, Event detail);
@@ -39,7 +38,7 @@ contract EventPlatform {
     }
 
     // User-related functions
-    function registerUser(string memory name, uint8 age) public {
+    function registerUser(string memory name, uint age) public {
         require(registeredUser[msg.sender].userAddress == address(0), "User already exists");
         registeredUser[msg.sender] = User(msg.sender,name,age);
     }
@@ -73,7 +72,7 @@ contract EventPlatform {
     }
 
     // Event-related functions
-    function addEvent(string memory eventName, string memory description,uint32 date, string memory venue, uint64 maxParticipants, uint8 ageLimit, uint256 fee, bool isVisible) public {
+    function addEvent(string memory eventName, string memory description, uint256 date, string memory venue, uint maxParticipants, uint ageLimit, uint256 fee) public {
         require(registeredUser[msg.sender].userAddress != address(0), "User is not yet registered");
         Event storage tmp = currentEvent[currentEventID];
         tmp.eventID = currentEventID;
@@ -85,14 +84,13 @@ contract EventPlatform {
         tmp.ageLimit = ageLimit;
         tmp.fee = fee;
         tmp.admin = registeredUser[msg.sender];
-        tmp.isVisible = isVisible;
         
         emit EventCreated(currentEventID, msg.sender, tmp);
 
         currentEventID++;
     }
 
-    function editEvent(uint256 eventID, string memory eventName, string memory description,uint32 date, string memory venue, uint64 maxParticipants, uint8 ageLimit, uint64 fee, bool isVisible) public {
+    function editEvent(uint256 eventID, string memory eventName, string memory description, uint256 date, string memory venue, uint maxParticipants, uint ageLimit, uint64 fee) public {
         require(eventID >= 0 && eventID < currentEventID, "Event does not exist");
         require(currentEvent[eventID].admin.userAddress == msg.sender, "Only admin can edit the event");
         currentEvent[eventID].eventName = eventName;
@@ -102,7 +100,6 @@ contract EventPlatform {
         currentEvent[eventID].maxParticipants = maxParticipants;
         currentEvent[eventID].ageLimit = ageLimit;
         currentEvent[eventID].fee = fee;
-        currentEvent[eventID].isVisible = isVisible;
     }
 
     function joinEvent(uint256 eventID) public payable {
@@ -140,26 +137,6 @@ contract EventPlatform {
         }
         return allEvents;
     }
-
-    function getAllVisibleEvents() public view returns (Event[] memory) {
-        uint256 visibleCount = 0;
-        for (uint256 i = 0; i < currentEventID; i++) {
-            if (currentEvent[i].isVisible) {
-                visibleCount++;
-            }
-        }
-
-        Event[] memory visibleEvents = new Event[](visibleCount);
-        uint256 index = 0;
-        for (uint256 i = 0; i < currentEventID; i++) {
-            if (currentEvent[i].isVisible) {
-                visibleEvents[index] = currentEvent[i];
-                index++;
-            }
-        }
-        return visibleEvents;
-    }
-
 
     // use the "Withdrawal from Contracts" pattern from https://docs.soliditylang.org/en/v0.8.28/common-patterns.html#withdrawal-from-contracts 
     function withdraw() public {
