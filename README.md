@@ -1,1 +1,1 @@
-# EventTicketingPlatform
+# EventHub: Event Registration Platform
