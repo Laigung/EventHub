@@ -42,7 +42,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <GlobalLayout children={children} />
           </LayoutContextProvider>
         </Web3ContextProvider>
-        <ScrollRestoration />
         <Scripts />
       </body>
     </html>

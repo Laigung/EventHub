@@ -69,6 +69,10 @@ function App() {
     getEvents();
   }, [contract, connectedAccount]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="w-full h-full flex flex-col gap-5 justify-center items-start">
       {contextHolder}
