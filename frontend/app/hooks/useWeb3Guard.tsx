@@ -7,7 +7,7 @@ import { useWeb3Context } from "~/Web3Context";
 export default function useWeb3Guard() {
   const { connectedAccount, user } = useWeb3Context();
   const { setMenuKey } = useLayoutContext();
-  const [redirectTimeout, setRedirectTimeout] = useState<number>(10000);
+  const [redirectTimeout, setRedirectTimeout] = useState<number>(20000);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,14 +37,13 @@ export default function useWeb3Guard() {
   return {
     willRedirect: connectedAccount === undefined || user === undefined,
     redirectNotice: (
-      <div className="w-full h-full text-2xl text-sol-dark flex flex-col justify-center items-center">
-        {!connectedAccount && (
-          <p>
-            Please connect to MetaMask and register an user account to enjoy our
-            platform.
-          </p>
-        )}
-        {!user && <p>Please register an user account to enjoy our platform.</p>}
+      <div className="w-full h-full text-2xl text-black flex flex-col justify-center items-center">
+        <p>Please complete the following(s) to enjoy our platform</p>
+        <ol className="list-decimal list-inside text-sol-dark border-[1px] border-solid border-black p-2 my-2">
+          {!connectedAccount && <li>connect to MetaMask</li>}
+          {!user && <li>register an EventHub user account</li>}
+        </ol>
+
         <p>{`You will be redirected to home page in ${redirectTimeout / 1000} second(s)`}</p>
         <Button
           onClick={() => {
