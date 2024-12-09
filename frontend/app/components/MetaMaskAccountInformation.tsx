@@ -1,8 +1,8 @@
-import { CopyOutlined } from '@ant-design/icons';
-import { notification, Select, SelectProps } from 'antd';
+import { CopyOutlined } from "@ant-design/icons";
+import { notification, Select, SelectProps } from "antd";
 
 interface AccountInformationProps {
-  accountOptions: SelectProps['options'];
+  accountOptions: SelectProps["options"];
   connectedAccount: string;
   setConnectedAccount: (
     value: React.SetStateAction<string | undefined>
@@ -10,7 +10,7 @@ interface AccountInformationProps {
   currentBalance: string;
 }
 
-export default function AccountInformation({
+export default function MetaMaskAccountInformation({
   accountOptions,
   connectedAccount,
   setConnectedAccount,
@@ -21,9 +21,11 @@ export default function AccountInformation({
   return (
     <div className="w-full flex flex-col justify-start items-start text-xl">
       {contextHolder}
-      <div className="text-2xl font-bold">Account Information</div>
+      <div className="text-2xl font-bold text-sol-dark">
+        MetaMask Account Information
+      </div>
       <div className="w-full flex justify-start items-center gap-2">
-        <div>Current account: </div>
+        <span>Current account: </span>
         <Select
           className="min-w-[500px]"
           options={accountOptions}
@@ -34,13 +36,15 @@ export default function AccountInformation({
           onClick={() => {
             navigator.clipboard.writeText(connectedAccount);
             api.success({
-              message: 'Address copied to clipboard',
+              message: "Address copied to clipboard",
               duration: 2,
             });
           }}
         />
       </div>
-      <div>Balance: {currentBalance} ether</div>
+      <div>
+        <span>Balance</span>: {currentBalance} ether
+      </div>
     </div>
   );
 }

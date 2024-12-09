@@ -16,6 +16,12 @@ export default {
           '"Noto Color Emoji"',
         ],
       },
+      colors: {
+        'sol': {
+          'pale': '#E5E3EC',
+          'dark': '#2B247C',
+        }
+      }
     },
   },
   plugins: [],

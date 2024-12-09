@@ -1,82 +1,89 @@
-import { Button } from 'antd';
-import type { Route } from './+types/home';
-import { useEffect, useMemo, useState } from 'react';
-import { Web3 } from 'web3';
-import AccountInformation from '~/components/AccountInformation';
+import { Button, notification, Skeleton } from "antd";
+import type { Route } from "./+types/home";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import MetaMaskAccountInformation from "~/components/MetaMaskAccountInformation";
+import EventList from "~/components/EventList";
+import { useWeb3Context } from "~/Web3Context";
+import { IEvent } from "~/types";
+import EventHubUserInformation from "~/components/EventHubUserInformation";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: 'Event Ticket Platform' }];
+  return [{ title: "EventHub" }];
 }
 
 function App() {
-  const [web3, setWeb3] = useState<Web3>();
-  const [warning, setWarning] = useState<string>();
-  const [accountButtonDisabled, setAccountButtonDisabled] =
-    useState<boolean>(false);
-  const [accounts, setAccounts] = useState<string[]>();
-  const [allBalances, setAllBalances] = useState<Record<string, string>>({});
+  const {
+    web3,
+    contract,
+    requestAccounts,
+    accounts,
+    allBalances,
+    connectedAccount,
+    setConnectedAccount,
+    currentBalance,
+    events,
+    setEvents,
+  } = useWeb3Context();
 
-  const [connectedAccount, setConnectedAccount] = useState<string>();
-  const [currentBalance, setCurrentBalance] = useState<string>('loading...');
+  const [api, contextHolder] = notification.useNotification();
+
+  const [isLoadingEvents, setIsLoadingEvents] = useState<boolean>(false);
 
   const accountOptions = useMemo(() => {
     return accounts?.map((account) => ({
-      label: `${account} (${allBalances[account] ?? 'loading...'} ether)`,
+      label: `${account} (${allBalances[account] ?? "loading..."} ether)`,
       value: account,
     }));
   }, [accounts, allBalances]);
 
-  async function requestAccounts() {
-    if (!web3) {
-      return;
+  const getEvents = useCallback(async () => {
+    if (!contract || !connectedAccount) return;
+
+    try {
+      setIsLoadingEvents(true);
+
+      const events = await contract.methods
+        .getAllEvents()
+        .call<IEvent[]>({ from: connectedAccount });
+
+      setEvents(events);
+      setIsLoadingEvents(false);
+    } catch (err: unknown) {
+      api.error({
+        message: "Failed to fetch events",
+        duration: 2,
+      });
     }
+  }, [contract, connectedAccount]);
 
-    await window.ethereum.request({ method: 'eth_requestAccounts' });
-
-    const allAccounts = await web3.eth.getAccounts();
-    setAccounts(allAccounts);
-    setConnectedAccount(allAccounts[0]); // first account is the current one
-
-    allAccounts.map(async (account) => {
-      const balanceInWei = web3.utils.fromWei(
-        await web3.eth.getBalance(account),
-        'ether'
-      );
-      setAllBalances((prevBalances) => ({
-        ...prevBalances,
-        [account]: balanceInWei,
-      }));
+  const refreshEventList = async () => {
+    await getEvents();
+    api.success({
+      message: "Success",
+      description: "Refreshed event list successfully",
+      duration: 2,
     });
-  }
+  };
 
   useEffect(() => {
-    async function getAccountBalance() {
-      if (!connectedAccount || !web3) return 'loading...';
-
-      const balanceInWei = await web3.eth.getBalance(connectedAccount);
-      setCurrentBalance(web3.utils.fromWei(balanceInWei, 'ether'));
-    }
-
-    connectedAccount && localStorage.setItem('account', connectedAccount);
-    getAccountBalance();
-  }, [connectedAccount]);
+    getEvents();
+  }, [contract, connectedAccount]);
 
   useEffect(() => {
-    // if metamask is present, it will inject the ethereum object into window
-    if (window.ethereum) {
-      setWeb3(new Web3(window.ethereum));
-    } else {
-      // no Ethereum provider - instruct user to install MetaMask
-      setWarning('Please install MetaMask');
-      setAccountButtonDisabled(true);
-    }
+    window.scrollTo(0, 0);
   }, []);
 
   return (
     <div className="w-full h-full flex flex-col gap-5 justify-center items-start">
-      {warning ?? <div>{warning}</div>}
+      {contextHolder}
 
-      {!accounts && (
+      {web3 === undefined ? (
+        <div>Please install MetaMask to enjoy our platform.</div>
+      ) : (
+        <></>
+      )}
+
+      {accounts.length === 0 && (
         <div className="w-full h-full flex flex-col gap-5 justify-center items-center">
           <h2 className="text-xl">
             Please connect your MetaMask to enjoy our platform
@@ -85,19 +92,35 @@ function App() {
             type="primary"
             onClick={() => requestAccounts()}
             id="requestAccounts"
-            disabled={accountButtonDisabled}
+            disabled={web3 === undefined}
           >
             Request MetaMask Accounts
           </Button>
         </div>
       )}
-      {accounts && connectedAccount && (
-        <AccountInformation
-          accountOptions={accountOptions}
-          connectedAccount={connectedAccount}
-          currentBalance={currentBalance}
-          setConnectedAccount={setConnectedAccount}
-        />
+      {accounts.length > 0 && connectedAccount && (
+        <>
+          <div className="w-full flex gap-5 justify-between items-start">
+            <div className="flex-grow-[7]">
+              <MetaMaskAccountInformation
+                accountOptions={accountOptions}
+                connectedAccount={connectedAccount}
+                currentBalance={currentBalance}
+                setConnectedAccount={setConnectedAccount}
+              />
+            </div>
+            <div className="flex-grow-[3]">
+              <EventHubUserInformation />
+            </div>
+          </div>
+          <Skeleton loading={isLoadingEvents}>
+            <EventList
+              events={events ?? []}
+              isHome={true}
+              refresh={refreshEventList}
+            />
+          </Skeleton>
+        </>
       )}
     </div>
   );

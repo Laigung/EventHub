@@ -1,4 +1,4 @@
-# EventTicketingPlatform Frontend
+# EventHub Frontend
 This project is created with the react router template.
 
 ## Welcome to React Router!
@@ -63,16 +63,16 @@ To build and run using Docker:
 
 ```bash
 # For npm
-docker build -t event_ticketing_platform_frontend .
+docker build -t eventhub_frontend .
 
 # For pnpm
-docker build -f Dockerfile.pnpm -t event_ticketing_platform_frontend .
+docker build -f Dockerfile.pnpm -t eventhub_frontend .
 
 # For bun
-docker build -f Dockerfile.bun -t event_ticketing_platform_frontend .
+docker build -f Dockerfile.bun -t eventhub_frontend .
 
 # Run the container
-docker run -p 3000:3000 event_ticketing_platform_frontend
+docker run -p 3000:3000 eventhub_frontend
 ```
 
 The containerized application can be deployed to any platform that supports Docker, including:
