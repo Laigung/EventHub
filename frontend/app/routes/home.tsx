@@ -8,7 +8,7 @@ import { IEvent } from "~/types";
 import EventHubUserInformation from "~/components/EventHubUserInformation";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "Event Ticket Platform" }];
+  return [{ title: "EventHub" }];
 }
 
 function App() {
@@ -60,7 +60,7 @@ function App() {
     await getEvents();
     api.success({
       message: "Success",
-      description: "Refresh event list successfully",
+      description: "Refreshed event list successfully",
       duration: 2,
     });
   };
@@ -110,7 +110,11 @@ function App() {
             </div>
           </div>
           <Skeleton loading={isLoadingEvents}>
-            <EventList events={events ?? []} refresh={refreshEventList} />
+            <EventList
+              events={events ?? []}
+              isHome={true}
+              refresh={refreshEventList}
+            />
           </Skeleton>
         </>
       )}

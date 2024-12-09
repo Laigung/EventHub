@@ -8,6 +8,7 @@ dayjs.extend(LocalizedFormat);
 
 interface EventCardProps {
   event: IEvent;
+  isHome: boolean;
 }
 
 export function Field({
@@ -35,12 +36,21 @@ export function Field({
   );
 }
 
-export default function EventCard({ event }: EventCardProps) {
+export default function EventCard({ event, isHome }: EventCardProps) {
   const eventDate = dayjs.unix(Number(event.date)).format("LLLL");
   return (
     <Card
       title={`${event.eventName} (#${event.eventID})`}
-      extra={<Link to={`event/${event.eventID}`}>More</Link>}
+      extra={
+        <Link
+          to={{
+            pathname: `/event/${event.eventID}`,
+            search: isHome ? "?from=home" : "?from=manage",
+          }}
+        >
+          More
+        </Link>
+      }
       className="min-w-[350px]"
     >
       <Field title="Description" content={event.description} />

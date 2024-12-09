@@ -1,4 +1,8 @@
-import { HomeOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  CalendarOutlined,
+  HomeOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import { ConfigProvider, Layout, Menu, MenuProps } from "antd";
 import { Link } from "react-router";
 import { useLayoutContext } from "./LayoutContext";
@@ -30,6 +34,15 @@ export default function GlobalLayout({
         </Link>
       ),
       label: "Create Event",
+    },
+    {
+      key: "myEventsLink",
+      icon: (
+        <Link to="/manage">
+          <CalendarOutlined />
+        </Link>
+      ),
+      label: "My Events",
     },
   ];
 

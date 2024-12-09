@@ -110,9 +110,9 @@ export default function CreateEventPage() {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      {willRedirect ? (
-        redirectNotice
-      ) : (
+    {willRedirect ? (
+      redirectNotice
+    ) : (
         <>
           {contextHolder}
           <h1 className="text-sol-dark font-bold text-2xl">Create Event</h1>

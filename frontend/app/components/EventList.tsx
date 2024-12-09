@@ -5,14 +5,15 @@ import { ReloadOutlined } from "@ant-design/icons";
 
 interface EventListProps {
   events: IEvent[];
+  isHome: boolean;
   refresh: () => Promise<void>;
 }
 
-export default function EventList({ events, refresh }: EventListProps) {
+export default function EventList({ events, isHome, refresh }: EventListProps) {
   const getEventListItems = (event: IEvent) => {
     return (
       <List.Item>
-        <EventCard event={event} />
+        <EventCard event={event} isHome={isHome} />
       </List.Item>
     );
   };

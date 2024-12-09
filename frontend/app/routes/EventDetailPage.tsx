@@ -3,12 +3,13 @@ import { Route } from "./+types/EventDetailPage";
 import { ConfigProvider, Descriptions } from "antd";
 import type { DescriptionsProps } from "antd";
 import dayjs from "dayjs";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { BackwardOutlined } from "@ant-design/icons";
 
 export async function loader({ params }: Route.LoaderArgs) {}
 
 export default function EventDetailPage({ params }: Route.ComponentProps) {
+  const [searchParams] = useSearchParams();
   const { web3, events } = useWeb3Context();
 
   const event = events.find((e) => e.eventID.toString() === params.eventId);
@@ -93,8 +94,11 @@ export default function EventDetailPage({ params }: Route.ComponentProps) {
         },
       }}
     >
-      <Link to="/" className="mb-5">
-        <BackwardOutlined></BackwardOutlined>Go Back to HomePage
+      <Link
+        to={searchParams.get("from") === "home" ? "/" : "/manage"}
+        className="mb-5"
+      >
+        <BackwardOutlined></BackwardOutlined>Go Back
       </Link>
       <Descriptions title="Event Info" bordered items={items} />
     </ConfigProvider>
