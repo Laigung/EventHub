@@ -23,7 +23,7 @@ interface CreateEventFormType {
   ageLimit: number;
 }
 
-interface FeeInput {
+export interface FeeInput {
   wei: number | null;
   eth: number | null;
 }

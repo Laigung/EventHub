@@ -1,55 +1,11 @@
 # EventHub Frontend
 This project is created with the react router template.
 
-## Welcome to React Router!
+## About React Router!
 
 A modern, production-ready template for building full-stack React applications using React Router.
 
-## Features
-
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
-
-## Getting Started
-
-### Installation
-
-Environment:
-
-
-NodeJS: `v20.18.1`
-Pnpm: `v9.14.4`
-
-Install the dependencies:
-
-```bash
-pnpm install
-```
-
-### Development
-
-Start the development server with HMR:
-
-```bash
-pnpm run dev
-```
-
-Your application will be available at `http://localhost:5173`.
-
-## Building for Production
-
-Create a production build:
-
-```bash
-pnpm run build
-```
-
-## Deployment
+## Deployment (Quickest way to run the project)
 
 ### Docker Deployment
 
@@ -83,26 +39,42 @@ The containerized application can be deployed to any platform that supports Dock
 - Digital Ocean App Platform
 - Fly.io
 - Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
 ---
+
+
+## Local Development
+
+### Installation
+
+Environment:
+
+
+NodeJS: `v20.18.1`
+Pnpm: `v9.14.4`
+
+Install the dependencies:
+
+```bash
+pnpm install
+```
+
+### Development
+
+Start the development server with HMR:
+
+```bash
+pnpm run dev
+```
+
+Your application will be available at `http://localhost:3000`.
+
+## Building for Production
+
+Create a production build:
+
+```bash
+pnpm run build
+```
 
 Built with ❤️ using React Router.
 

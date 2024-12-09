@@ -23,6 +23,8 @@ type Web3ContextType = {
   // state-related
   events: IEvent[];
   setEvents: (value: React.SetStateAction<IEvent[]>) => void;
+  refreshEvents: () => Promise<void>;
+  isEventLoading: boolean;
 };
 
 // Default context value
@@ -37,6 +39,10 @@ const defaultWeb3Context: Web3ContextType = {
   currentBalance: "loading...",
   events: [],
   setEvents: () => {},
+  refreshEvents: () => {
+    return new Promise((resolve, reject) => {});
+  },
+  isEventLoading: false,
 };
 
 const Web3Context = createContext<Web3ContextType>(defaultWeb3Context);
@@ -55,6 +61,7 @@ export default function Web3ContextProvider({
   const [isUserInfoLoading, setIsUserInfoLoading] = useState<boolean>(false);
 
   const [events, setEvents] = useState<IEvent[]>([]);
+  const [isEventLoading, setIsEventLoading] = useState<boolean>(false);
 
   async function requestAccounts() {
     if (!web3) {
@@ -78,6 +85,23 @@ export default function Web3ContextProvider({
       }));
     });
   }
+
+  const getEvents = useCallback(async () => {
+    if (!contract || !connectedAccount) return;
+
+    try {
+      setIsEventLoading(true);
+
+      const events = await contract.methods
+        .getAllEvents()
+        .call<IEvent[]>({ from: connectedAccount });
+
+      setEvents(events);
+      setIsEventLoading(false);
+    } catch (err: unknown) {
+      console.error(err);
+    }
+  }, [contract, connectedAccount]);
 
   const getUserInfo = useCallback(() => {
     if (!connectedAccount) return;
@@ -112,6 +136,7 @@ export default function Web3ContextProvider({
 
     getAccountBalance();
     getUserInfo();
+    getEvents();
   }, [connectedAccount]);
 
   useEffect(() => {
@@ -143,6 +168,8 @@ export default function Web3ContextProvider({
         currentBalance,
         events,
         setEvents,
+        refreshEvents: getEvents,
+        isEventLoading,
       }}
     >
       {children}
