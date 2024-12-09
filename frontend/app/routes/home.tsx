@@ -1,10 +1,9 @@
 import { Button, notification, Skeleton } from "antd";
 import type { Route } from "./+types/home";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import MetaMaskAccountInformation from "~/components/MetaMaskAccountInformation";
 import EventList from "~/components/EventList";
 import { useWeb3Context } from "~/Web3Context";
-import { IEvent } from "~/types";
 import EventHubUserInformation from "~/components/EventHubUserInformation";
 
 export function meta({}: Route.MetaArgs) {
@@ -14,7 +13,6 @@ export function meta({}: Route.MetaArgs) {
 function App() {
   const {
     web3,
-    contract,
     requestAccounts,
     accounts,
     allBalances,
@@ -22,12 +20,11 @@ function App() {
     setConnectedAccount,
     currentBalance,
     events,
-    setEvents,
+    refreshEvents,
+    isEventLoading,
   } = useWeb3Context();
 
   const [api, contextHolder] = notification.useNotification();
-
-  const [isLoadingEvents, setIsLoadingEvents] = useState<boolean>(false);
 
   const accountOptions = useMemo(() => {
     return accounts?.map((account) => ({
@@ -36,38 +33,15 @@ function App() {
     }));
   }, [accounts, allBalances]);
 
-  const getEvents = useCallback(async () => {
-    if (!contract || !connectedAccount) return;
-
-    try {
-      setIsLoadingEvents(true);
-
-      const events = await contract.methods
-        .getAllEvents()
-        .call<IEvent[]>({ from: connectedAccount });
-
-      setEvents(events);
-      setIsLoadingEvents(false);
-    } catch (err: unknown) {
-      api.error({
-        message: "Failed to fetch events",
-        duration: 2,
-      });
-    }
-  }, [contract, connectedAccount]);
-
   const refreshEventList = async () => {
-    await getEvents();
+    await refreshEvents();
     api.success({
       message: "Success",
       description: "Refreshed event list successfully",
+      showProgress: true,
       duration: 2,
     });
   };
-
-  useEffect(() => {
-    getEvents();
-  }, [contract, connectedAccount]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -113,7 +87,7 @@ function App() {
               <EventHubUserInformation />
             </div>
           </div>
-          <Skeleton loading={isLoadingEvents}>
+          <Skeleton loading={isEventLoading}>
             <EventList
               events={events ?? []}
               isHome={true}

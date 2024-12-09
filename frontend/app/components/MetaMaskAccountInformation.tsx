@@ -37,7 +37,8 @@ export default function MetaMaskAccountInformation({
             navigator.clipboard.writeText(connectedAccount);
             api.success({
               message: "Address copied to clipboard",
-              duration: 2,
+              showProgress: true,
+              duration: 3,
             });
           }}
         />

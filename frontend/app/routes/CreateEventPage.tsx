@@ -23,7 +23,7 @@ interface CreateEventFormType {
   ageLimit: number;
 }
 
-interface FeeInput {
+export interface FeeInput {
   wei: number | null;
   eth: number | null;
 }
@@ -67,13 +67,14 @@ export default function CreateEventPage() {
           .send({ from: connectedAccount })
           .on("sent", () => {
             api.info({
-              message: "Transaction sent",
-              duration: 5,
+              message: "Request sent, Please wait until the request finishes",
+              duration: null,
             });
           })
           .on("receipt", (receipt) => {
             api.success({
               message: "Event Created Successfully",
+              showProgress: true,
               duration: 10,
             });
           })
@@ -81,6 +82,8 @@ export default function CreateEventPage() {
             api.success({
               message: "Received Transaction Hash",
               description: hash,
+              showProgress: true,
+              pauseOnHover: true,
               duration: 10,
             });
           })
@@ -110,9 +113,9 @@ export default function CreateEventPage() {
 
   return (
     <div className="flex flex-col justify-center items-center">
-    {willRedirect ? (
-      redirectNotice
-    ) : (
+      {willRedirect ? (
+        redirectNotice
+      ) : (
         <>
           {contextHolder}
           <h1 className="text-sol-dark font-bold text-2xl">Create Event</h1>
