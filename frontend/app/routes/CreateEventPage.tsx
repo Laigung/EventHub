@@ -110,7 +110,7 @@ export default function CreateEventPage() {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      {!willRedirect ? (
+      {willRedirect ? (
         redirectNotice
       ) : (
         <>

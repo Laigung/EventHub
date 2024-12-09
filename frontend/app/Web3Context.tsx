@@ -93,6 +93,7 @@ export default function Web3ContextProvider({
           });
         })
         .catch((error) => {
+          setUser(undefined);
           console.error("Error fetching user info:", error);
         });
     };

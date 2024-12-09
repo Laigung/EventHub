@@ -35,7 +35,7 @@ export default function CreateUserAccountModal({
 
   return (
     <Modal
-      title="Basic Modal"
+      title="Register EventHub User Account"
       open={isModalOpen}
       onOk={onCreate}
       onCancel={() => setIsModalOpen(false)}
