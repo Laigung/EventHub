@@ -18,27 +18,37 @@ export default function CreateUserAccountModal({
   const { contract, connectedAccount } = useWeb3Context();
   const [form] = Form.useForm<CreateUserAccountFormType>();
 
-  const onCreate = () => {
-    const name = form.getFieldValue("name");
-    const age = form.getFieldValue("age");
+  const onCreate = async () => {
+    try {
+      await form.validateFields();
 
-    contract?.methods
-      .registerUser(name, age)
-      .send({ from: connectedAccount })
-      .then(() => {
-        setIsModalOpen(false);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+      const name = form.getFieldValue("name");
+      const age = form.getFieldValue("age");
+      contract?.methods
+        .registerUser(name, age)
+        .send({ from: connectedAccount })
+        .then(() => {
+          form.resetFields();
+          setIsModalOpen(false);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } catch (err) {
+      console.error(err);
+      return;
+    }
   };
 
   return (
     <Modal
-      title="Register EventHub User Account"
+      title="Register EventHub Account"
       open={isModalOpen}
       onOk={onCreate}
-      onCancel={() => setIsModalOpen(false)}
+      onCancel={() => {
+        form.resetFields();
+        setIsModalOpen(false);
+      }}
       okText="Create"
     >
       <Form
@@ -49,10 +59,18 @@ export default function CreateUserAccountModal({
         layout="vertical"
         className="w-full h-fit"
       >
-        <Form.Item label="Username" name="name">
+        <Form.Item
+          label="Username"
+          name="name"
+          rules={[{ required: true, message: "Please input the user name" }]}
+        >
           <Input />
         </Form.Item>
-        <Form.Item label="age" name="age">
+        <Form.Item
+          label="age"
+          name="age"
+          rules={[{ required: true, message: "Please input the age" }]}
+        >
           <InputNumber min={0} />
         </Form.Item>
       </Form>

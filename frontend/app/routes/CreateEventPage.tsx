@@ -129,7 +129,7 @@ export default function CreateEventPage() {
               label="Event Name"
               name="eventName"
               rules={[
-                { required: true, message: "Please input the event name!" },
+                { required: true, message: "Please input the event name" },
               ]}
             >
               <Input />
@@ -139,7 +139,7 @@ export default function CreateEventPage() {
               label="Description"
               name="description"
               rules={[
-                { required: true, message: "Please input the description!" },
+                { required: true, message: "Please input the description" },
               ]}
             >
               <Input.TextArea />
@@ -148,7 +148,7 @@ export default function CreateEventPage() {
             <Form.Item
               label="Date"
               name="date"
-              rules={[{ required: true, message: "Please select the date!" }]}
+              rules={[{ required: true, message: "Please select the date" }]}
             >
               <DatePicker showTime />
             </Form.Item>
@@ -156,7 +156,7 @@ export default function CreateEventPage() {
             <Form.Item
               label="Venue"
               name="venue"
-              rules={[{ required: true, message: "Please input the venue!" }]}
+              rules={[{ required: true, message: "Please input the venue" }]}
             >
               <Input />
             </Form.Item>
@@ -167,7 +167,7 @@ export default function CreateEventPage() {
               rules={[
                 {
                   required: true,
-                  message: "Please input the maximum number of participants!",
+                  message: "Please input the maximum number of participants",
                 },
               ]}
             >
@@ -178,7 +178,7 @@ export default function CreateEventPage() {
               label="Age Limit"
               name="ageLimit"
               rules={[
-                { required: true, message: "Please input the age limit!" },
+                { required: true, message: "Please input the age limit" },
               ]}
             >
               <InputNumber min={0} max={150} />
@@ -191,7 +191,7 @@ export default function CreateEventPage() {
                 rules={[
                   {
                     required: true,
-                    message: "Please input the amount in Wei or ETH!",
+                    message: "Please input the amount in Wei or ETH",
                   },
                 ]}
               >
