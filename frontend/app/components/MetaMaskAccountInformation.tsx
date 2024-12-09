@@ -10,7 +10,7 @@ interface AccountInformationProps {
   currentBalance: string;
 }
 
-export default function AccountInformation({
+export default function MetaMaskAccountInformation({
   accountOptions,
   connectedAccount,
   setConnectedAccount,
@@ -22,7 +22,7 @@ export default function AccountInformation({
     <div className="w-full flex flex-col justify-start items-start text-xl">
       {contextHolder}
       <div className="text-2xl font-bold text-sol-dark">
-        Account Information
+        MetaMask Account Information
       </div>
       <div className="w-full flex justify-start items-center gap-2">
         <span>Current account: </span>

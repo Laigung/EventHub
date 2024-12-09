@@ -1,7 +1,3 @@
-import Web3 from "web3";
-
-const web3 = new Web3('http://127.0.0.1:3000');
-
 const contractAddress = "0x9903511C25A4e00f222f17Dec8EA8D5C3Aa1cba7";
  
 const contractABI = [
@@ -566,4 +562,4 @@ const contractABI = [
 	}
 ] as const;
 
-export {web3, contractAddress, contractABI};
+export {contractAddress, contractABI};

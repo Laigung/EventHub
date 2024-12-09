@@ -1,11 +1,11 @@
 import { Button, notification, Skeleton } from "antd";
 import type { Route } from "./+types/home";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import AccountInformation from "~/components/AccountInformation";
+import MetaMaskAccountInformation from "~/components/MetaMaskAccountInformation";
 import EventList from "~/components/EventList";
 import { useWeb3Context } from "~/Web3Context";
 import { IEvent } from "~/types";
-import UserInformation from "~/components/UserInformation";
+import EventHubUserInformation from "~/components/EventHubUserInformation";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Event Ticket Platform" }];
@@ -98,7 +98,7 @@ function App() {
         <>
           <div className="w-full flex gap-5 justify-between items-start">
             <div className="flex-grow-[7]">
-              <AccountInformation
+              <MetaMaskAccountInformation
                 accountOptions={accountOptions}
                 connectedAccount={connectedAccount}
                 currentBalance={currentBalance}
@@ -106,7 +106,7 @@ function App() {
               />
             </div>
             <div className="flex-grow-[3]">
-              <UserInformation />
+              <EventHubUserInformation />
             </div>
           </div>
           <Skeleton loading={isLoadingEvents}>

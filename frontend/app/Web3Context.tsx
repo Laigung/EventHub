@@ -1,7 +1,7 @@
 import React from "react";
 import { createContext, useEffect, useState } from "react";
-import Web3, { Contract } from "web3";
-import { contractABI, contractAddress } from "./web3";
+import { Contract, Web3 } from "web3";
+import { contractABI, contractAddress } from "./contract";
 import { IEvent, IUser } from "./types";
 
 type Web3ContextType = {
