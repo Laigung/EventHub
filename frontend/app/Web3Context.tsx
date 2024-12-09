@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { createContext, useEffect, useState } from "react";
 import { Contract, Web3 } from "web3";
 import { contractABI, contractAddress } from "./contract";
@@ -6,22 +6,29 @@ import { IEvent, IUser } from "./types";
 
 type Web3ContextType = {
   web3?: Web3;
-  requestAccounts: () => Promise<void>;
   contract?: Contract<typeof contractABI>;
+  // metamask-related
+  requestAccounts: () => Promise<void>;
   accounts: string[];
-  user?: IUser;
-  allBalances: Record<string, string>;
   connectedAccount?: string;
   setConnectedAccount: (
     value: React.SetStateAction<string | undefined>
   ) => void;
+  allBalances: Record<string, string>;
   currentBalance: string;
+  // EventHub account-related
+  user?: IUser;
+  refreshUserInfo: () => void;
+  isUserInfoLoading: boolean;
+  // state-related
   events: IEvent[];
   setEvents: (value: React.SetStateAction<IEvent[]>) => void;
 };
 
 // Default context value
 const defaultWeb3Context: Web3ContextType = {
+  refreshUserInfo: () => {},
+  isUserInfoLoading: false,
   requestAccounts: async () => {},
   accounts: [],
   allBalances: {},
@@ -40,11 +47,12 @@ export default function Web3ContextProvider({
   const [web3, setWeb3] = useState<Web3>();
   const [contract, setContract] = useState<Contract<typeof contractABI>>();
   const [accounts, setAccounts] = useState<string[]>([]);
-  const [user, setUser] = useState<IUser>();
-
   const [allBalances, setAllBalances] = useState<Record<string, string>>({});
   const [connectedAccount, setConnectedAccount] = useState<string>();
   const [currentBalance, setCurrentBalance] = useState<string>("loading...");
+
+  const [user, setUser] = useState<IUser>();
+  const [isUserInfoLoading, setIsUserInfoLoading] = useState<boolean>(false);
 
   const [events, setEvents] = useState<IEvent[]>([]);
 
@@ -71,6 +79,29 @@ export default function Web3ContextProvider({
     });
   }
 
+  const getUserInfo = useCallback(() => {
+    if (!connectedAccount) return;
+
+    setIsUserInfoLoading(true);
+    contract?.methods
+      .getUserInfo()
+      .call({ from: connectedAccount })
+      .then((userInfo) => {
+        setUser({
+          userName: userInfo.userName,
+          age: Number(userInfo.age),
+          userAddress: userInfo.userAddress,
+        });
+      })
+      .catch((error) => {
+        setUser(undefined);
+        console.error("Error fetching user info:", error);
+      })
+      .finally(() => {
+        setIsUserInfoLoading(false);
+      });
+  }, [connectedAccount, contract]);
+
   useEffect(() => {
     async function getAccountBalance() {
       if (!connectedAccount || !web3) return "loading...";
@@ -78,25 +109,6 @@ export default function Web3ContextProvider({
       const balanceInWei = await web3.eth.getBalance(connectedAccount);
       setCurrentBalance(web3.utils.fromWei(balanceInWei, "ether"));
     }
-
-    const getUserInfo = () => {
-      if (!connectedAccount) return;
-
-      contract?.methods
-        .getUserInfo()
-        .call({ from: connectedAccount })
-        .then((userInfo) => {
-          setUser({
-            userName: userInfo.userName,
-            age: Number(userInfo.age),
-            userAddress: userInfo.userAddress,
-          });
-        })
-        .catch((error) => {
-          setUser(undefined);
-          console.error("Error fetching user info:", error);
-        });
-    };
 
     getAccountBalance();
     getUserInfo();
@@ -123,6 +135,8 @@ export default function Web3ContextProvider({
         contract,
         accounts,
         user,
+        refreshUserInfo: getUserInfo,
+        isUserInfoLoading,
         allBalances,
         connectedAccount,
         setConnectedAccount,
