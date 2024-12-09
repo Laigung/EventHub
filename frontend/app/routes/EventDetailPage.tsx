@@ -45,6 +45,12 @@ export default function EventDetailPage({ params }: Route.ComponentProps) {
       span: 3,
     },
     {
+      key: parentKey + "-eventId",
+      label: "event ID",
+      children: Number(event.eventID),
+      span: 3,
+    },
+    {
       key: parentKey + "-maxParticipants",
       label: "maxParticipants",
       children: Number(event.maxParticipants),
@@ -100,7 +106,11 @@ export default function EventDetailPage({ params }: Route.ComponentProps) {
       >
         <BackwardOutlined></BackwardOutlined>Go Back
       </Link>
-      <Descriptions title="Event Info" bordered items={items} />
+      <Descriptions
+        title={`Event Info - ${event.eventName} (#${event.eventID})`}
+        bordered
+        items={items}
+      />
     </ConfigProvider>
   );
 }
